@@ -5,6 +5,8 @@
 TMP="`local_backup_directory`"
 DEST="$TMP/daily"
 
+cd /tmp
+
 if [ -x /usr/bin/psql ] && [ -x /usr/bin/pg_dump ]; then
 	dbs=`pg_list_local_databases`
 	for db in $dbs; do
