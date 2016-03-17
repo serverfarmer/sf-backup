@@ -1,6 +1,6 @@
 #!/bin/bash
 . /opt/farm/scripts/functions.custom
-. /opt/sf-backup/functions
+. /opt/farm/ext/backup/functions
 
 TMP="`local_backup_directory`"
 DEST="$TMP/daily"
