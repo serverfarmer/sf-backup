@@ -21,13 +21,21 @@ mkdir -p     $path/daily $path/weekly $path/custom
 chmod 0700   $path/daily $path/weekly $path/custom
 chown $owner $path/daily $path/weekly $path/custom
 
-echo "setting up filesystem backup scripts"
-ln -sf /opt/farm/ext/backup/cron/fs-daily.sh /etc/cron.daily/backup
-ln -sf /opt/farm/ext/backup/cron/fs-weekly.sh /etc/cron.weekly/backup
-
 if [ -d /boot ] && [ ! -h /boot ] && [ ! -f /boot/.done ]; then
 	echo "setting up default /boot directory backup policy"
 	touch /boot/.weekly /boot/.done
+fi
+
+if [ -h /etc/cron.daily/backup ]; then
+	echo "removing deprecated links to filesystem backup scripts"
+	rm -f /etc/cron.daily/backup
+	rm -f /etc/cron.weekly/backup
+fi
+
+if ! grep -q /opt/farm/ext/backup/cron/fs- /etc/crontab; then
+	echo "setting up filesystem backup scripts"
+	echo "$((RANDOM%60)) 6 * * * root /opt/farm/ext/backup/cron/fs-daily.sh" >>/etc/crontab
+	echo "$((RANDOM%60)) 6 * * 7 root /opt/farm/ext/backup/cron/fs-weekly.sh" >>/etc/crontab
 fi
 
 if ! grep -q /opt/farm/ext/backup/cron/mysql.sh /etc/crontab && [ -f /etc/mysql/debian.cnf ]; then
