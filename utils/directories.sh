@@ -32,9 +32,23 @@ for D in `ls /srv/sites 2>/dev/null`; do
 	echo /srv/sites/$D
 done
 
-for D in cassandra docker ldap lxc mfs mongodb openswan rabbitmq redis samba spamassassin tomcat6 tomcat7 vz; do
+for D in bind cassandra collectd docker heimdal-kdc ldap lxc mfs mongodb openswan rabbitmq redis samba slapd spamassassin tomcat6 tomcat7 vz zentyal zentyal-usercorner; do
 	echo /var/lib/$D
 done
+
+for D in lxc ntp omc pam php pve ssh ssl zsh dbus gvfs keys nmap pear qemu rssh gnupg mysql samba scout YaST2 augeas config debsig fedora opensc polkit vyatta adduser cluster debconf elastix openlmi openvpn Pegasus postfix redland xtables zentyal apparmor keyrings ontology openldap sendmail susehelp sysmerge virtuoso zenbuntu a2billing glusterfs heartbeat openattic pkgconfig shorewall open-cobol postgresql spamassassin SuSEfirewall2 mobile-broadband ca-certificates perl5/site perl5/vendor perl5/EBox perl5/PVE; do
+	echo /usr/share/$D
+done
+
+for D in php ssl ctasd ctipd vzctl mailman savapi3 sysctl.d perl5/site perl5/vendor; do
+	echo /usr/lib/$D
+done
+
+if [ -d /usr/lib64 ] && [ ! -h /usr/lib64 ]; then
+	for D in vzctl perl5/site perl5/vendor; do
+		echo /usr/lib64/$D
+	done
+fi
 
 for D in `ls / |egrep -v "^(bin|boot|cgroup|data|dev|etc|home|initrd.img|lib|lib32|lib64|libdata|libexec|livecd|lost\+found|media|mnt|opt|proc|rescue|root|run|sbin|selinux|srv|sys|tmp|usr|var|vmlinuz)$"`; do
 	echo /$D
