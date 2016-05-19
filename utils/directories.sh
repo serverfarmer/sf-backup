@@ -32,11 +32,11 @@ for D in `ls /srv/sites 2>/dev/null`; do
 	echo /srv/sites/$D
 done
 
-for D in bind cassandra collectd docker heimdal-kdc ldap lxc mfs mongodb openswan rabbitmq redis samba slapd spamassassin tomcat6 tomcat7 vz zentyal zentyal-usercorner; do
+for D in apache2 bind cassandra collectd dbus dhcp docker heimdal-kdc jenkins ldap lxc mfs mongodb openswan php5 rabbitmq redis samba slapd spamassassin tomcat6 tomcat7 vz zentyal zentyal-usercorner; do
 	echo /var/lib/$D
 done
 
-for D in lxc ntp omc pam php pve ssh ssl zsh dbus gvfs keys nmap pear qemu rssh gnupg mysql samba scout YaST2 augeas config debsig fedora opensc polkit vyatta adduser cluster debconf elastix openlmi openvpn Pegasus postfix redland xtables zentyal apparmor keyrings ontology openldap sendmail susehelp sysmerge virtuoso zenbuntu a2billing glusterfs heartbeat openattic pkgconfig shorewall open-cobol postgresql spamassassin SuSEfirewall2 mobile-broadband ca-certificates perl5/site perl5/vendor perl5/EBox perl5/PVE; do
+for D in lxc ntp omc pam php pve ssh ssl zsh dbus gvfs keys nmap pear qemu rssh gnupg mysql samba scout YaST2 augeas config debsig fedora opensc polkit vyatta adduser cluster debconf elastix jenkins openlmi openvpn Pegasus postfix redland xtables zentyal apparmor keyrings ontology openldap sendmail susehelp sysmerge virtuoso zenbuntu a2billing glusterfs heartbeat openattic pkgconfig shorewall open-cobol postgresql spamassassin SuSEfirewall2 mobile-broadband ca-certificates perl5/site perl5/vendor perl5/EBox perl5/PVE; do
 	echo /usr/share/$D
 done
 
