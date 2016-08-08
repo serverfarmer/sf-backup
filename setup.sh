@@ -3,7 +3,7 @@
 . /opt/farm/scripts/functions.custom
 
 
-if [ "$HWTYPE" = "container" ]; then
+if [ "$HWTYPE" = "container" ] || [ "$HWTYPE" = "lxc" ]; then
 	echo "skipping system backup configuration"
 	exit 1
 fi
