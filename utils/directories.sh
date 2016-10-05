@@ -32,7 +32,7 @@ for D in `ls /srv/sites 2>/dev/null`; do
 	echo /srv/sites/$D
 done
 
-for D in apache2 bind cassandra collectd dbus dhcp docker heimdal-kdc jenkins ldap lxc mfs mongodb openswan php5 rabbitmq redis samba slapd spamassassin tomcat6 tomcat7 vz zentyal zentyal-usercorner; do
+for D in `ls -F /var/lib |grep / |egrep -v "^(AccountsService|alsa|alternatives|apparmor|apt|apt-xapian-index|aptitude|belocs|aspell|binfmts|clamav|colord|cron-apt|dictionaries-common|dkms|doc-base|emacsen-common|gconf|gems|ghc|ghostscript|haproxy|initramfs-tools|iptotal|iptraf|ispell|libreoffice|libxml-sax-perl|lightdm|lightdm-data|locales|logcheck|logrotate|lxcfs|lxd|lxdm|man-db|mdadm|mibs|misc|mlocate|monit|mplayer|mysql|nfs|nginx|ntp|ntpdate|openbox|plymouth|polkit-1|postfix|postgresql|python|python-support|resolvconf|rfkill|scrollkeeper|sepolgen|setroubleshoot|sgml-base|smartmontools|snapd|snmp|stateless|sudo|systemd|tex-common|texmf|ubiquity|ubuntu-drivers-common|ubuntu-release-upgrader|udisks2|update-manager|update-notifier|update-rc.d|urandom|upower|ureadahead|usbutils|VBoxGuestAdditions|vim|xfonts|xkb|xml-core)/$" |cut -d/ -f1`; do
 	echo /var/lib/$D
 done
 
