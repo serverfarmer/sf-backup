@@ -9,6 +9,7 @@ if [ "$HWTYPE" = "container" ] || [ "$HWTYPE" = "lxc" ]; then
 fi
 
 if [ "`getent passwd backup`" = "" ]; then
+	echo "creating backup user and group"
 	groupadd -g 34 backup
 	useradd -u 34 -g backup -s /bin/sh -m backup
 fi
