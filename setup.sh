@@ -8,18 +8,17 @@ if [ "$HWTYPE" = "container" ] || [ "$HWTYPE" = "lxc" ]; then
 	exit 1
 fi
 
-if [ "$OSTYPE" = "debian" ]; then
-	owner="backup:backup"
-else
-	owner="root:root"
+if [ "`getent passwd backup`" = "" ]; then
+	groupadd -g 34 backup
+	useradd -u 34 -g backup -s /bin/sh -m backup
 fi
 
 path=`local_backup_directory`
 
 echo "setting up backup directories"
-mkdir -p     $path/daily $path/weekly $path/custom
-chmod 0700   $path/daily $path/weekly $path/custom
-chown $owner $path/daily $path/weekly $path/custom
+mkdir -p            $path/daily $path/weekly $path/custom
+chmod 0700          $path/daily $path/weekly $path/custom
+chown backup:backup $path/daily $path/weekly $path/custom
 
 if [ -d /boot ] && [ ! -h /boot ] && [ ! -f /boot/.done ]; then
 	echo "setting up default /boot directory backup policy"
