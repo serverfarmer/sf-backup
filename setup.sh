@@ -10,8 +10,13 @@ fi
 
 if [ "`getent passwd backup`" = "" ]; then
 	echo "creating backup user and group"
-	groupadd -g 34 backup
-	useradd -u 34 -g backup -s /bin/sh -m backup
+	if [ "$OSTYPE" = "freebsd" ]; then
+		pw groupadd backup -g 34
+		pw useradd backup -u 34 -g backup -s /bin/sh -m
+	else
+		groupadd -g 34 backup
+		useradd -u 34 -g backup -s /bin/sh -m backup
+	fi
 fi
 
 path=`local_backup_directory`
