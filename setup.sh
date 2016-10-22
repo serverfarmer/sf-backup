@@ -26,7 +26,7 @@ mkdir -p            $path/daily $path/weekly $path/custom
 chmod 0700          $path/daily $path/weekly $path/custom
 chown backup:backup $path/daily $path/weekly $path/custom
 
-if [ "$OSTYPE" = "freebsd" ]; then
+if [ "$OSTYPE" = "freebsd" ] || [ "$OSTYPE" = "netbsd" ]; then
 	mkdir -p   /var/lib
 	chmod 0711 /var/lib
 fi
