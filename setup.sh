@@ -26,6 +26,11 @@ mkdir -p            $path/daily $path/weekly $path/custom
 chmod 0700          $path/daily $path/weekly $path/custom
 chown backup:backup $path/daily $path/weekly $path/custom
 
+if [ "$OSTYPE" = "freebsd" ]; then
+	mkdir -p   /var/lib
+	chmod 0711 /var/lib
+fi
+
 if [ -d /boot ] && [ ! -h /boot ] && [ ! -f /boot/.done ]; then
 	echo "setting up default /boot directory backup policy"
 	touch /boot/.weekly /boot/.done
