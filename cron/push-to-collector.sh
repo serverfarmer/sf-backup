@@ -12,14 +12,13 @@
 TMP="`local_backup_directory`"
 
 
+type=`/opt/farm/scripts/config/detect-hostname-type.sh $1`
+
 if [ "$1" = "" ]; then
-	echo "usage: $0 <collector-hostname> [--all]"
+	echo "usage: $0 <collector-hostname[:port]> [--all]"
 	exit 1
-elif ! [[ $1 =~ ^[a-z0-9.-]+[.][a-z0-9]+([:][0-9]+)?$ ]]; then
-	echo "error: invalid backup collector hostname"
-	exit 1
-elif [ "`getent hosts $1`" = "" ]; then
-	echo "error: host $1 not found"
+elif [ "$type" != "hostname" ] && [ "$type" != "ip" ]; then
+	echo "error: parameter $1 not conforming hostname format, or given hostname is invalid"
 	exit 1
 fi
 
@@ -29,7 +28,14 @@ else
 	files="`add_backup_extension $TMP/daily/'*'` `add_backup_extension $TMP/weekly/'*'` `add_backup_extension $TMP/custom/'*'`"
 fi
 
-dt=`date +%Y%m%d`
-host=`hostname`
-sshkey=`ssh_management_key_storage_filename $1`
-rsync -e "ssh -i $sshkey" -a $files root@$1:/srv/mounts/backup/remote/$host/$dt
+server=$1
+if [ -z "${server##*:*}" ]; then
+	host="${server%:*}"
+	port="${server##*:}"
+else
+	host=$server
+	port=22
+fi
+
+sshkey=`ssh_management_key_storage_filename $host`
+rsync -e "ssh -p $port -i $sshkey" -a $files root@$host:/srv/mounts/backup/remote/`hostname`/`date +%Y%m%d`
