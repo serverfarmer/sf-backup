@@ -27,6 +27,7 @@ backup_mysql() {
 	prefix=$5
 	temp=$6
 	dest=$7
+	nolock=$8
 
 	if [ -d $temp ] && [ -d $dest ]; then
 		access="-h $host -P $port -u $user -p$pass"
@@ -37,14 +38,26 @@ backup_mysql() {
 		mysql $access | sed 's/\(GRANT .*\)/\1;/;s/^\(Grants for .*\)/## \1 ##/;/##/{x;p;x;}' |`stream_handler` >$temp/$fname
 		mv -f $temp/$fname $dest/$fname 2>/dev/null
 
-		echo "FLUSH TABLES WITH READ LOCK;" |mysql $access
+		if [ "$nolock" = "" ]; then
+			echo "FLUSH TABLES WITH READ LOCK;" |mysql $access
+		fi
+
 		for db in $dbs; do
 			fname=`add_backup_extension $prefix-$db.sql`
-			mysqldump $access --quick --extended-insert --complete-insert --lock-tables --lock-all-tables --flush-logs --skip-add-drop-table --databases $db | \
-			`stream_handler` >$temp/$fname
+
+			if [ "$nolock" != "" ]; then
+				mysqldump $access --quick --extended-insert --complete-insert --skip-add-drop-table --single-transaction --databases $db |`stream_handler` >$TMP/$fname
+			else
+				mysqldump $access --quick --extended-insert --complete-insert --skip-add-drop-table --lock-tables --lock-all-tables --flush-logs --databases $db | \
+				`stream_handler` >$temp/$fname
+			fi
+
 			mv -f $temp/$fname $dest/$fname 2>/dev/null
 		done
-		echo "UNLOCK TABLES;" |mysql $access
+
+		if [ "$nolock" = "" ]; then
+			echo "UNLOCK TABLES;" |mysql $access
+		fi
 	fi
 }
 
