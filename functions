@@ -28,10 +28,16 @@ backup_mysql() {
 	temp=$6
 	dest=$7
 	nolock=$8
+	skipfile=$9
 
 	if [ -d $temp ] && [ -d $dest ]; then
 		access="-h $host -P $port -u $user -p$pass"
-		dbs="`echo \"show databases;\" |mysql $access |grep -v ^Database |grep -v information_schema |grep -v performance_schema |grep -v ^mysql\$`"
+
+		if [ "$skipfile" != "" ] && [ -f $skipfile ]; then
+			dbs="`echo \"show databases;\" |mysql $access |grep -v ^Database |grep -v information_schema |grep -v performance_schema |grep -v ^mysql\$ |grep -vxFf $skipfile`"
+		else
+			dbs="`echo \"show databases;\" |mysql $access |grep -v ^Database |grep -v information_schema |grep -v performance_schema |grep -v ^mysql\$`"
+		fi
 
 		fname=`add_backup_extension $prefix-grants.sql`
 		mysql --batch --skip-column-names $access -e "SELECT DISTINCT CONCAT('SHOW GRANTS FOR \'', user, '\'@\'', host, '\';') AS query FROM mysql.user" | \
