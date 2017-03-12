@@ -34,9 +34,9 @@ backup_mysql() {
 		access="-h $host -P $port -u $user -p$pass"
 
 		if [ "$skipfile" != "" ] && [ -f $skipfile ]; then
-			dbs="`echo \"show databases;\" |mysql $access |grep -v ^Database |grep -v information_schema |grep -v performance_schema |grep -v ^mysql\$ |grep -vxFf $skipfile`"
+			dbs="`echo \"show databases;\" |mysql $access |grep -v ^Database |grep -v information_schema |grep -v performance_schema |grep -v ^sys\$ |grep -v ^mysql\$ |grep -vxFf $skipfile`"
 		else
-			dbs="`echo \"show databases;\" |mysql $access |grep -v ^Database |grep -v information_schema |grep -v performance_schema |grep -v ^mysql\$`"
+			dbs="`echo \"show databases;\" |mysql $access |grep -v ^Database |grep -v information_schema |grep -v performance_schema |grep -v ^sys\$ |grep -v ^mysql\$`"
 		fi
 
 		fname=`add_backup_extension $prefix-grants.sql`
