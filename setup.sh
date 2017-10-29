@@ -21,9 +21,11 @@ mkdir -p            $path/daily $path/weekly $path/custom
 chmod 0700          $path/daily $path/weekly $path/custom
 chown backup:backup $path/daily $path/weekly $path/custom
 
-if ! grep -q /opt/farm/ext/backup/cron/mysql.sh /etc/crontab && [ -f /etc/mysql/debian.cnf ]; then
-	echo "setting up crontab entry for mysql backup"
-	echo "$((RANDOM%60)) 4 * * * root /opt/farm/ext/backup/cron/mysql.sh" >>/etc/crontab
+if ! grep -q /opt/farm/ext/backup/cron/mysql.sh /etc/crontab; then
+	if [ -f /etc/mysql/debian.cnf ] || [ -d /usr/local/directadmin ]; then
+		echo "setting up crontab entry for mysql backup"
+		echo "$((RANDOM%60)) 4 * * * root /opt/farm/ext/backup/cron/mysql.sh" >>/etc/crontab
+	fi
 fi
 
 if ! grep -q /opt/farm/ext/backup/cron/postgres.sh /etc/crontab && [ -x /usr/bin/psql ]; then
