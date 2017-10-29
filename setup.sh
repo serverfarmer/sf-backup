@@ -42,6 +42,11 @@ if [ "$OSTYPE" = "freebsd" ] || [ "$OSTYPE" = "netbsd" ]; then
 	chmod 0711 /var/lib
 fi
 
+if [ -d /usr/local/directadmin ] && [ ! -e /usr/local/bin/mysqldump ]; then
+	echo "setting up directadmin mysqldump link"
+	ln -s /usr/local/mysql/bin/mysqldump /usr/local/bin/mysqldump
+fi
+
 if [ -d /boot ] && [ ! -h /boot ] && [ ! -f /boot/.done ]; then
 	echo "setting up default /boot directory backup policy"
 	touch /boot/.weekly /boot/.done
