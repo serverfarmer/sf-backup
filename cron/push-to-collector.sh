@@ -1,4 +1,5 @@
 #!/bin/bash
+. /opt/farm/scripts/functions.net
 . /opt/farm/scripts/functions.custom
 . /opt/farm/scripts/functions.keys
 # This script is intended to be used only on farm manager, when:
@@ -13,12 +14,10 @@
 TMP="`local_backup_directory`"
 
 
-type=`/opt/farm/scripts/config/detect-hostname-type.sh $1`
-
 if [ "$1" = "" ]; then
 	echo "usage: $0 <collector-hostname[:port]> [--all]"
 	exit 1
-elif [ "$type" != "hostname" ] && [ "$type" != "ip" ]; then
+elif [ "`resolve_host $1`" = "" ]; then
 	echo "error: parameter $1 not conforming hostname format, or given hostname is invalid"
 	exit 1
 fi
