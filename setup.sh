@@ -14,6 +14,11 @@ if [ "`getent passwd backup`" = "" ]; then
 	fi
 fi
 
+if [ "$OSTYPE" = "debian" ] && [ "`getent passwd backup |cut -d: -f7`" = "/usr/sbin/nologin" ]; then
+	echo "enabling rsync access for backup user"
+	usermod -s /bin/sh backup
+fi
+
 path=`local_backup_directory`
 
 echo "setting up backup directories"
