@@ -5,7 +5,7 @@
 TMP="`local_backup_directory`"
 DEST="$TMP/daily"
 
-warn="Warning: Using a password"
+warn="Using a password"
 
 if [ -f /etc/mysql/debian.cnf ] && [ -f /var/run/mysqld/mysqld.pid ]; then
 	pass="`cat /etc/mysql/debian.cnf |grep password |tail -n1 |sed s/password\ =\ //g`"
