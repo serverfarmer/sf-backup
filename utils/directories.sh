@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for D in /etc /root /boot /var/log /var/cache/farm /var/cache/bind; do
+for D in /etc /root /boot /var/log /var/cache/farm /var/cache/dns /var/cache/bind; do
 	echo $D
 done
 
