@@ -1,7 +1,7 @@
 #!/bin/bash
 . /opt/farm/scripts/functions.net
 . /opt/farm/scripts/functions.custom
-. /opt/farm/scripts/functions.keys
+. /opt/farm/ext/keys/functions
 # This script is intended to be used only on farm manager, when:
 # - backup collector role is delegated to another server
 # - backup collector doesn't have ssh key to farm manager
