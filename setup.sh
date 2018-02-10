@@ -35,7 +35,10 @@ chmod 0700          $path/daily $path/weekly $path/custom
 chown backup:backup $path/daily $path/weekly $path/custom
 
 if [ "$OSTYPE" = "qnap" ]; then
-	ln -s $path `local_backup_directory`
+	path2=`local_backup_directory`
+	if [ ! -h $path2 ]; then
+		ln -s $path $path2
+	fi
 fi
 
 
