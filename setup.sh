@@ -8,6 +8,9 @@ if [ "`getent passwd backup`" = "" ]; then
 	if [ "$OSTYPE" = "freebsd" ]; then
 		pw groupadd backup -g 34
 		pw useradd backup -u 34 -g backup -s /bin/sh -m
+	elif [ "$OSTYPE" = "qnap" ]; then
+		echo "backup:x:34:" >>/etc/config/group
+		/usr/local/bin/useradd -u 34 -g backup -s /bin/sh -m backup
 	else
 		groupadd -g 34 backup
 		useradd -u 34 -g backup -s /bin/sh -m backup
