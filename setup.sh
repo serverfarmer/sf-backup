@@ -22,12 +22,22 @@ if [ "$OSTYPE" = "debian" ] && [ "`getent passwd backup |cut -d: -f7`" = "/usr/s
 	usermod -s /bin/sh backup
 fi
 
-path=`local_backup_directory`
+
+if [ "$OSTYPE" = "qnap" ]; then
+	path="/share/HDA_DATA/.qpkg/ServerFarmerBackup"
+else
+	path=`local_backup_directory`
+fi
 
 echo "setting up backup directories"
 mkdir -p            $path/daily $path/weekly $path/custom
 chmod 0700          $path/daily $path/weekly $path/custom
 chown backup:backup $path/daily $path/weekly $path/custom
+
+if [ "$OSTYPE" = "qnap" ]; then
+	ln -s $path `local_backup_directory`
+fi
+
 
 if ! grep -q /opt/farm/ext/backup/cron/mysql.sh /etc/crontab; then
 	if [ -f /etc/mysql/debian.cnf ] || [ -d /usr/local/directadmin ]; then
