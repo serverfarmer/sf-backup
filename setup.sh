@@ -23,10 +23,12 @@ if [ "$OSTYPE" = "debian" ] && [ "`getent passwd backup |cut -d: -f7`" = "/usr/s
 fi
 
 
-if [ "$OSTYPE" = "qnap" ]; then
-	path="/share/HDA_DATA/.qpkg/ServerFarmerBackup"
-else
+if [ "$OSTYPE" != "qnap" ]; then
 	path=`local_backup_directory`
+elif [ -d /share/HDA_DATA/.qpkg ]; then
+	path=/share/HDA_DATA/.qpkg/ServerFarmer/backup
+else
+	path=/share/MD0_DATA/.qpkg/ServerFarmer/backup
 fi
 
 echo "setting up backup directories"
