@@ -1,6 +1,6 @@
 target_file_name() {
-	source_dir=$1
-	echo ${source_dir:1}.tar |tr '/' '_'
+	source_dir=`echo $1 |tr '.' '_'`
+	echo $source_dir.tar |cut -c2- |tr '/' '_'
 }
 
 backup_directory() {
