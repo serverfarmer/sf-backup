@@ -2,33 +2,37 @@
 . /opt/farm/scripts/functions.net
 . /opt/farm/scripts/functions.custom
 . /opt/farm/ext/keys/functions
-# This script is intended to be used only on farm manager, when:
-# - backup collector role is delegated to another server
-# - backup collector doesn't have ssh key to farm manager
-# - farm manager has ssh root key for backup collector
-#
-# Such scheme can occur eg. in increased-security-farms (along with backup
-# encryption), where farm manager is operated only by carefully selected
-# staff, while backup collector has wider access.
+# This script is intended to be used in all cases, where backup collector
+# is unable to fetch backups from server (eg. for security reasons).
 
 TMP="`local_backup_directory`"
 
 
 if [ "$1" = "" ]; then
-	echo "usage: $0 <collector-hostname[:port]> [--all]"
+	echo "usage: $0 <user> <collector-hostname[:port]> <target-path> <ssh-key> [--all]"
 	exit 1
-elif [ "`resolve_host $1`" = "" ]; then
-	echo "error: parameter $1 not conforming hostname format, or given hostname is invalid"
+elif ! [[ $1 =~ ^[a-z0-9]+$ ]]; then
+	echo "error: parameter $1 not conforming user name format"
+	exit 1
+elif [ "`resolve_host $2`" = "" ]; then
+	echo "error: parameter $2 not conforming hostname format, or given hostname is invalid"
+	exit 1
+elif [ ! -f $4 ]; then
+	echo "error: ssh key $4 not found"
 	exit 1
 fi
 
-if [ "$2" != "--all" ]; then
+if [ "$5" != "--all" ]; then
 	files="`add_backup_extension $TMP/daily/'*'`"
 else
 	files="`add_backup_extension $TMP/daily/'*'` `add_backup_extension $TMP/weekly/'*'` `add_backup_extension $TMP/custom/'*'`"
 fi
 
-server=$1
+user=$1
+server=$2
+path=$3
+sshkey=$4
+
 if [ -z "${server##*:*}" ]; then
 	host="${server%:*}"
 	port="${server##*:}"
@@ -37,5 +41,4 @@ else
 	port=22
 fi
 
-sshkey=`ssh_management_key_storage_filename $host`
-rsync -e "ssh -p $port -i $sshkey" -a $files root@$host:/srv/mounts/backup/remote/`hostname`/`date +%Y%m%d`
+rsync -e "ssh -p $port -i $sshkey -o StrictHostKeyChecking=no -o PasswordAuthentication=no" -a $files $user@$host:$path/`date +%Y%m%d`
