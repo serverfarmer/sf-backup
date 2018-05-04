@@ -53,6 +53,13 @@ if ! grep -q /opt/farm/ext/backup/cron/postgres.sh /etc/crontab && [ -x /usr/bin
 	echo "$((RANDOM%60)) 4 * * * root /opt/farm/ext/backup/cron/postgres.sh" >>/etc/crontab
 fi
 
+if ! grep -q /opt/farm/ext/backup/cron/mongodb.sh /etc/crontab && [ -x /usr/bin/mongo ] && [ -x /usr/bin/mongodump ]; then
+	if [ -f /etc/mongodb.conf ] || [ -f /etc/mongod.conf ]; then
+		echo "setting up crontab entry for mongodb backup"
+		echo "$((RANDOM%60)) 4 * * * root /opt/farm/ext/backup/cron/mongodb.sh" >>/etc/crontab
+	fi
+fi
+
 
 if [ "$HWTYPE" = "container" ] || [ "$HWTYPE" = "lxc" ]; then
 	echo "skipping system backup configuration"
@@ -72,6 +79,11 @@ fi
 if [ -d /boot ] && [ ! -h /boot ] && [ ! -f /boot/.done ]; then
 	echo "setting up default /boot directory backup policy"
 	touch /boot/.weekly /boot/.done
+fi
+
+if [ -d /var/lib/mongodb ] && [ ! -h /var/lib/mongodb ] && [ ! -f /var/lib/mongodb/.done ]; then
+	echo "setting up default /var/lib/mongodb directory backup policy"
+	touch /var/lib/mongodb/.weekly /var/lib/mongodb/.done
 fi
 
 if ! grep -q /opt/farm/ext/backup/cron/fs- /etc/crontab; then
