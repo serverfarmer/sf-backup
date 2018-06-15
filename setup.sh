@@ -1,6 +1,7 @@
 #!/bin/bash
 . /opt/farm/scripts/init
 . /opt/farm/scripts/functions.custom
+. /opt/farm/ext/keys/functions
 
 
 if [ "`gpg_backup_key`" != "" ]; then
