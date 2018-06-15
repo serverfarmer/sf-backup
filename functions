@@ -1,3 +1,19 @@
+add_backup_extension() {
+	if [ "`gpg_backup_key`" != "" ]; then
+		echo "$1.gpg"
+	else
+		echo "$1.gz"
+	fi
+}
+
+stream_handler() {
+	if [ "`gpg_backup_key`" != "" ]; then
+		echo "gpg --encrypt --no-armor --recipient `gpg_backup_key` --batch"
+	else
+		echo "gzip -c9"
+	fi
+}
+
 target_file_name() {
 	source_dir=`echo $1 |tr '.' '_'`
 	echo $source_dir.tar |cut -c2- |tr '/' '_'

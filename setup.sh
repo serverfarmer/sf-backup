@@ -3,6 +3,10 @@
 . /opt/farm/scripts/functions.custom
 
 
+if [ "`gpg_backup_key`" != "" ]; then
+	/opt/farm/scripts/setup/extension.sh sf-gpg
+fi
+
 if [ "`getent passwd backup`" = "" ]; then
 	echo "creating backup user and group"
 	if [ "$OSTYPE" = "freebsd" ]; then
