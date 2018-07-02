@@ -4,6 +4,8 @@
 . /opt/farm/ext/keys/functions
 
 
+/opt/farm/scripts/setup/extension.sh sf-db-utils
+
 if [ "`gpg_backup_key`" != "" ]; then
 	/opt/farm/scripts/setup/extension.sh sf-gpg
 fi
