@@ -7,6 +7,11 @@
 /opt/farm/scripts/setup/extension.sh sf-db-utils
 /opt/farm/scripts/setup/extension.sh sf-net-utils
 
+if [ -s /etc/local/.config/disable.backup ]; then
+	echo "skipping backup configuration, forced by disable.backup file"
+	exit 0
+fi
+
 if [ "`gpg_backup_key`" != "" ]; then
 	/opt/farm/scripts/setup/extension.sh sf-gpg
 fi
