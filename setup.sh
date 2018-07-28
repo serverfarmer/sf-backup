@@ -7,8 +7,8 @@
 /opt/farm/scripts/setup/extension.sh sf-db-utils
 /opt/farm/scripts/setup/extension.sh sf-net-utils
 
-if [ -s /etc/local/.config/disable.backup ]; then
-	echo "skipping backup configuration, forced by disable.backup file"
+if [ -s /etc/local/.config/backup.disable ]; then
+	echo "skipping backup configuration, forced by backup.disable file"
 	exit 0
 fi
 
