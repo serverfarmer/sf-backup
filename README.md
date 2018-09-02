@@ -88,9 +88,9 @@ This directory acts as a temporary directory, and also contains 3 subdirectories
 
 There are 3 "magic" files, that are recognized by Server Farmer:
 
-- `.weekly` causes backup scripts to skip this directory
+- `.weekly` causes backup scripts to skip this directory in `daily` mode (backup is done only on Sundays)
 - `.nobackup` completely removes parent directory from backup
-- `/var/www/.subdirectories` - works only in `/var/www` directory, causes backing up each `/var/www` subdirectory separately, instead of just `/var/www` as a whole
+- `.subdirectories` - works only inside `/var/www` directory, causes backing up each `/var/www` subdirectory separately, instead of just `/var/www` as a whole
 
 
 ### Backup encryption
@@ -99,13 +99,13 @@ Created backup archives are compressed and possibly encrypted on-the-fly (during
 
 To enable encryption, you need to make the following changes in your `sf-keys` repository fork:
 
-- generate new GPG RSA key (manually) and store the private key in a safe place
+- generate new GPG RSA key pair (manually) and store the private key in a safe place
 - edit `functions` file and add your key ID to `gpg_backup_key` function
 - add your key to `gpg/` directory (filename must match key ID with `.pub` extension)
 - commit and push changes
 - re-execute `/opt/farm/setup.sh` on all your farm
 
-This will install `sf-gpg` extension, and execute GPG key setup, so it will require your attention and manual help.
+This will install `sf-gpg` extension, and execute GPG key setup, so it will require your attention and manual help (only once per host).
 
 If `gpg_backup_key` function returns nothing, backups are not encrypted - just compressed with `gzip -c9`.
 
@@ -121,12 +121,12 @@ There are multiple types of paravirtualization mechanisms: Docker, LXC, OpenVZ, 
 
 This is how Server Farmer treats them:
 
-1. LXC is a normal, active platforms, on which Server Farmer can be installed and used, similar to any other virtual/physical machine - however:
+1. LXC is a normal, active platform, on which Server Farmer can be installed and used, similar to any other virtual/physical machine - however:
 - backup of local directories on LXC is skipped
 - local databases are still backed up
-- parent host detects `/var/lib/lxc` subdirectories as source directories to backup (each container goes to separate archive)
+- parent host detects subdirectories of `/var/lib/lxc` directory as source directories to backup (each container is backed up to separate archive)
 - LXC hosts are not registered to *backup collector* - instead, backup collector pulls backups of the whole containers from parent host
 
-2. Docker and OpenVZ containers are supported as passive containers (`sf-execute` command on *farm manager* can execute commands on them, but installing Server Farmer on them is unsupported. These types of containers are backed up as a whole `/var/lib/docker` or `/var/lib/vz` directory.
+2. Docker and OpenVZ containers are supported as passive containers (`sf-execute` command on *farm manager* can execute commands on them, but installing Server Farmer on them is unsupported. These types of containers are backed up as a whole `/var/lib/docker` or `/var/lib/vz` directory (all containers in single archive).
 
 3. Other types of containers (Xen PV, nspawn, linux-vserver etc.) are unsupported and backed as a whole local directory.
