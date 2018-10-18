@@ -16,7 +16,7 @@ for D in `ls /data 2>/dev/null`; do
 	echo /data/$D
 done
 
-for D in `ls /opt 2>/dev/null |egrep -v "^(farm|misc|warfare)$"`; do
+for D in `ls /opt 2>/dev/null |egrep -v "^(az|compliance|farm|heartbeat|misc|polynimbus|warfare|zonemanager)$"`; do
 	echo /opt/$D
 done
 
