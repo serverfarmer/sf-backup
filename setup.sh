@@ -6,6 +6,7 @@
 
 /opt/farm/scripts/setup/extension.sh sf-db-utils
 /opt/farm/scripts/setup/extension.sh sf-net-utils
+/opt/farm/scripts/setup/extension.sh sf-passwd-utils
 
 if [ -s /etc/local/.config/backup.disable ]; then
 	echo "skipping backup configuration, forced by backup.disable file"
@@ -16,22 +17,8 @@ if [ "`gpg_backup_key`" != "" ]; then
 	/opt/farm/scripts/setup/extension.sh sf-gpg
 fi
 
-if [ "`getent passwd backup`" = "" ]; then
-	echo "creating backup user and group"
-	if [ "$OSTYPE" = "freebsd" ]; then
-		pw groupadd backup -g 34
-		pw useradd backup -u 34 -g backup -s /bin/sh -m
-	elif [ "$OSTYPE" != "qnap" ]; then
-		groupadd -g 34 backup
-		useradd -u 34 -g backup -s /bin/sh -m backup
-	fi
-fi
-
-if [ "$OSTYPE" = "debian" ] && [ "`getent passwd backup |cut -d: -f7`" = "/usr/sbin/nologin" ]; then
-	echo "enabling rsync access for backup user"
-	usermod -s /bin/sh backup
-fi
-
+/opt/farm/ext/passwd-utils/create-group.sh backup 34
+/opt/farm/ext/passwd-utils/create-user.sh backup backup 34 -/var/backups /bin/sh
 
 if [ "$OSTYPE" != "qnap" ]; then
 	path=`local_backup_directory`
