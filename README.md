@@ -54,6 +54,13 @@ Other requirements:
 
 Empty databases are skipped, and all other ones are exported in BSON format, then packed into `.tar` archives.
 
+##### remote Postgres databases (eg. Amazon RDS)
+
+Remote Postgres databases can be backed up using `backup_postgres_remotedb` function from `/opt/farm/ext/backup/functions` script (one logical database at a time, as opposed to `backup_mysql` function). You just need to write your backup script, that will pass proper connection parameters to this function.
+
+**Important note**: this backup method uses `/root/.pgpass` file, which is overwritten and removed each time. So it is incompatible with storing static passwords in this file.
+
+
 ##### other databases
 
 Direct support for other database types is not planned, since their data directories are detected and backed up just like other local directories. In some edge cases, you may need to adjust some settings related to saving data to disk.

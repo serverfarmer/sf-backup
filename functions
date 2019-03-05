@@ -93,7 +93,9 @@ backup_postgres_remotedb() {
 	temp=$7
 	dest=$8
 
+	rm -f /root/.pgpass
 	echo "$host:$port:$db:$user:$pass" >/root/.pgpass
+	chmod 0600 /root/.pgpass
 	export PGPASSFILE=/root/.pgpass
 
 	fname=`add_backup_extension $prefix-$db.sql`
