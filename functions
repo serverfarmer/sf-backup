@@ -82,3 +82,27 @@ backup_mysql() {
 		fi
 	fi
 }
+
+backup_postgres_remotedb() {
+	host=$1
+	port=$2
+	user=$3
+	pass=$4
+	db=$5
+	prefix=$6
+	temp=$7
+	dest=$8
+
+	echo "$host:$port:$db:$user:$pass" >/root/.pgpass
+	export PGPASSFILE=/root/.pgpass
+
+	fname=`add_backup_extension $prefix-$db.sql`
+
+	# pg_dump from Postgres 9.x cannot handle 10.x databases and so on
+	# that's why avoid using pg_dump from OS (often stable=old) and use
+	# newer custom version instead
+	/opt/farm/ext/db-utils/utils/pg_dump -p $port -h $host -U $user -d $db |`stream_handler` >$temp/$fname
+
+	mv -f $temp/$fname $dest/$fname 2>/dev/null
+	rm -f /root/.pgpass
+}
