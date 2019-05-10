@@ -60,10 +60,14 @@ if ! grep -q /opt/farm/ext/backup/cron/mongodb.sh /etc/crontab && [ -x /usr/bin/
 	fi
 fi
 
+if ! grep -q /opt/farm/ext/backup/cron/docker.sh /etc/crontab && [ -x /usr/bin/docker ]; then
+	echo "setting up crontab entry for docker backup"
+	echo "$((RANDOM%60)) 5 * * * root /opt/farm/ext/backup/cron/docker.sh" >>/etc/crontab
+fi
 
 if [ "$HWTYPE" = "container" ] || [ "$HWTYPE" = "lxc" ]; then
 	echo "skipping system backup configuration"
-	exit 1
+	exit 0
 fi
 
 if [ "$OSTYPE" = "freebsd" ] || [ "$OSTYPE" = "netbsd" ]; then

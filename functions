@@ -30,7 +30,13 @@ backup_directory() {
 	fi
 	target_full=`add_backup_extension $target_file`
 	if [ -d $source_dir ] && [ ! -h $source_dir ] && [ "`ls -A $source_dir`" != "" ]; then
-		tar cf - $source_dir 2>/dev/null |`stream_handler` >$temp_dir/$target_full
+		if [ "$4" != "" ]; then
+			part1=`dirname $source_dir`
+			part2=`basename $source_dir`
+			tar cf - -C $part1 $part2 2>/dev/null |`stream_handler` >$temp_dir/$target_full
+		else
+			tar cf - $source_dir 2>/dev/null |`stream_handler` >$temp_dir/$target_full
+		fi
 		mv -f $temp_dir/$target_full $target_dir/$target_full 2>/dev/null
 	fi
 }
