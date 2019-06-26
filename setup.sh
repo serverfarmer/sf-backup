@@ -18,7 +18,7 @@ if [ "`gpg_backup_key`" != "" ]; then
 fi
 
 /opt/farm/ext/passwd-utils/create-group.sh backup 34
-/opt/farm/ext/passwd-utils/create-user.sh backup backup 34 -/var/backups /bin/sh
+/opt/farm/ext/passwd-utils/create-user.sh backup backup 34 /var/backups /bin/sh
 
 if [ "$OSTYPE" != "qnap" ]; then
 	path=`local_backup_directory`
