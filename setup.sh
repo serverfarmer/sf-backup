@@ -7,6 +7,7 @@
 /opt/farm/scripts/setup/extension.sh sf-db-utils
 /opt/farm/scripts/setup/extension.sh sf-net-utils
 /opt/farm/scripts/setup/extension.sh sf-passwd-utils
+/opt/farm/scripts/setup/extension.sh sf-binary-pgdump
 
 if [ -s /etc/local/.config/backup.disable ]; then
 	echo "skipping backup configuration, forced by backup.disable file"

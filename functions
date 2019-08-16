@@ -109,7 +109,7 @@ backup_postgres_remotedb() {
 	# pg_dump from Postgres 9.x cannot handle 10.x databases and so on
 	# that's why avoid using pg_dump from OS (often stable=old) and use
 	# newer custom version instead
-	/opt/farm/ext/db-utils/utils/pg_dump -p $port -h $host -U $user -d $db |`stream_handler` >$temp/$fname
+	/opt/farm/ext/binary-pgdump/wrapper/pg_dump -p $port -h $host -U $user -d $db |`stream_handler` >$temp/$fname
 
 	mv -f $temp/$fname $dest/$fname 2>/dev/null
 	rm -f /root/.pgpass
