@@ -74,7 +74,7 @@ backup_mysql() {
 			fname=`add_backup_extension $prefix-$db.sql`
 
 			if [ "$nolock" != "" ]; then
-				mysqldump $access --quick --extended-insert --complete-insert --skip-add-drop-table --single-transaction --databases $db |`stream_handler` >$TMP/$fname
+				mysqldump $access --quick --extended-insert --complete-insert --skip-add-drop-table --single-transaction --databases $db |`stream_handler` >$temp/$fname
 			else
 				mysqldump $access --quick --extended-insert --complete-insert --skip-add-drop-table --lock-tables --lock-all-tables --flush-logs --databases $db | \
 				`stream_handler` >$temp/$fname
