@@ -71,6 +71,11 @@ if [ "$HWTYPE" = "container" ] || [ "$HWTYPE" = "lxc" ]; then
 	exit 0
 fi
 
+if [ -f /etc/image-id ] && grep -q ami-ecs /etc/image-id; then
+	echo "disabling backup of /var/lib/docker directory on Amazon ECS"
+	date >/var/lib/docker/.nobackup
+fi
+
 if [ "$OSTYPE" = "freebsd" ] || [ "$OSTYPE" = "netbsd" ]; then
 	mkdir -p   /var/lib
 	chmod 0711 /var/lib
