@@ -1,6 +1,5 @@
 #!/bin/bash
 . /opt/farm/ext/backup/functions
-. /opt/farm/ext/keys/functions
 
 src=$1
 

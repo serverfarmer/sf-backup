@@ -1,7 +1,6 @@
 #!/bin/bash
 . /opt/farm/scripts/init
 . /opt/farm/scripts/functions.custom
-. /opt/farm/ext/keys/functions
 
 
 /opt/farm/scripts/setup/extension.sh sf-db-utils
@@ -14,7 +13,8 @@ if [ -s /etc/local/.config/backup.disable ]; then
 	exit 0
 fi
 
-if [ "`gpg_backup_key`" != "" ]; then
+keyname=`/opt/farm/ext/keys/get-gpg-backup-key.sh`
+if [ "$keyname" != "" ]; then
 	/opt/farm/scripts/setup/extension.sh sf-gpg
 fi
 

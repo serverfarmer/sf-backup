@@ -107,14 +107,14 @@ Created backup archives are compressed and possibly encrypted on-the-fly (during
 To enable encryption, you need to make the following changes in your `sf-keys` repository fork:
 
 - generate new GPG RSA key pair (manually) and store the private key in a safe place
-- edit `functions` file and add your key ID to `gpg_backup_key` function
+- add your key ID to `get-gpg-backup-key.sh` script
 - add your key to `gpg/` directory (filename must match key ID with `.pub` extension)
 - commit and push changes
 - re-execute `/opt/farm/setup.sh` on all your farm
 
 This will install `sf-gpg` extension, and execute GPG key setup, so it will require your attention and manual help (only once per host).
 
-If `gpg_backup_key` function returns nothing, backups are not encrypted - just compressed with `gzip -c9`.
+If `get-gpg-backup-key.sh` script returns nothing, backups are not encrypted - just compressed with `gzip -c9`.
 
 
 ### Disabling backup
