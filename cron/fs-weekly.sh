@@ -1,8 +1,7 @@
 #!/bin/sh
-. /opt/farm/scripts/functions.custom
 . /opt/farm/ext/backup/functions
 
-TMP="`local_backup_directory`"
+TMP="`/opt/farm/config/get-local-backup-directory.sh`"
 DEST="$TMP/weekly"
 
 for D in `/opt/farm/ext/backup/fs/detect.sh`; do

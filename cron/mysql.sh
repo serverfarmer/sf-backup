@@ -1,9 +1,8 @@
 #!/bin/sh
-. /opt/farm/scripts/functions.custom
 . /opt/farm/ext/db-utils/functions.mysql
 . /opt/farm/ext/backup/functions
 
-TMP="`local_backup_directory`"
+TMP="`/opt/farm/config/get-local-backup-directory.sh`"
 DEST="$TMP/daily"
 
 warn="Using a password"

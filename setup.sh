@@ -1,7 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 . /opt/farm/scripts/init
-. /opt/farm/scripts/functions.custom
-
 
 /opt/farm/scripts/setup/extension.sh sf-db-utils
 /opt/farm/scripts/setup/extension.sh sf-net-utils
@@ -22,7 +20,7 @@ fi
 /opt/farm/ext/passwd-utils/create-user.sh backup backup 34 /var/backups /bin/sh
 
 if [ "$OSTYPE" != "qnap" ]; then
-	path=`local_backup_directory`
+	path=`/opt/farm/config/get-local-backup-directory.sh`
 elif [ -d /share/HDA_DATA/.qpkg ]; then
 	path=/share/HDA_DATA/.qpkg/ServerFarmer/backup
 else
@@ -35,7 +33,7 @@ chmod 0700          $path/daily $path/weekly $path/custom
 chown backup:backup $path/daily $path/weekly $path/custom
 
 if [ "$OSTYPE" = "qnap" ]; then
-	path2=`local_backup_directory`
+	path2=`/opt/farm/config/get-local-backup-directory.sh`
 	if [ ! -h $path2 ]; then
 		ln -s $path $path2
 	fi

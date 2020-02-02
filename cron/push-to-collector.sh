@@ -1,11 +1,10 @@
 #!/bin/bash
-. /opt/farm/scripts/functions.custom
 . /opt/farm/ext/net-utils/functions
 . /opt/farm/ext/backup/functions
 # This script is intended to be used in all cases, where backup collector
 # is unable to fetch backups from server (eg. for security reasons).
 
-TMP="`local_backup_directory`"
+TMP="`/opt/farm/config/get-local-backup-directory.sh`"
 
 
 if [ "$1" = "" ]; then

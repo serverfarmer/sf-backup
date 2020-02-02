@@ -86,7 +86,7 @@ This mode is not executed automatically by default. It is a way for you to imple
 
 ### Backup target directory
 
-All backups are first created in local directory, by default in `/backup` (it can be configured using `local_backup_directory` function in `scripts/functions.custom` inside Server Farmer main repository.
+All backups are first created in local directory, by default in `/backup` (it can be configured using `get-local-backup-directory.sh` script inside Server Farmer main repository.
 
 This directory acts as a temporary directory, and also contains 3 subdirectories: `daily`, `weekly` and `custom`. Temporary archive is created in `/backup`, and when finished, moved to eg. `/backup/daily`.
 

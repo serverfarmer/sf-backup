@@ -1,8 +1,7 @@
 #!/bin/sh
-. /opt/farm/scripts/functions.custom
 . /opt/farm/ext/backup/functions
 
-TMP="`local_backup_directory`"
+TMP="`/opt/farm/config/get-local-backup-directory.sh`"
 DEST="$TMP/daily"
 
 if [ -x /usr/bin/mongo ] && [ -x /usr/bin/mongodump ]; then
