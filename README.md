@@ -134,6 +134,6 @@ This is how Server Farmer treats them:
 - parent host detects subdirectories of `/var/lib/lxc` directory as source directories to backup (each container is backed up to separate archive)
 - LXC hosts are not registered to *backup collector* - instead, backup collector pulls backups of the whole containers from parent host
 
-2. Docker and OpenVZ containers are supported as passive containers (`sf-execute` command on *farm manager* can execute commands on them, but installing Server Farmer on them is unsupported. These types of containers are backed up as a whole `/var/lib/docker` or `/var/lib/vz` directory (all containers in single archive).
+2. Docker containers are supported as passive containers (`sf-execute` command on *farm manager* can execute commands on them, but installing Server Farmer on them is unsupported. These types of containers are backed up as a whole `/var/lib/docker` directory (all containers in single archive).
 
-3. Other types of containers (Xen PV, nspawn, linux-vserver etc.) are unsupported and backed as a whole local directory.
+3. Other types of containers (OpenVZ, Xen PV, nspawn, linux-vserver etc.) are handled just like all other hosts.

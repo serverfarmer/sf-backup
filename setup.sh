@@ -64,8 +64,8 @@ if ! grep -q /opt/farm/ext/backup/cron/docker.sh /etc/crontab && [ -x /usr/bin/d
 	echo "$((RANDOM%60)) 5 * * * root /opt/farm/ext/backup/cron/docker.sh" >>/etc/crontab
 fi
 
-if [ "$HWTYPE" = "container" ] || [ "$HWTYPE" = "lxc" ]; then
-	echo "skipping system backup configuration"
+if [ "$HWTYPE" = "lxc" ]; then
+	echo "skipping system backup configuration on LXC"
 	exit 0
 fi
 
