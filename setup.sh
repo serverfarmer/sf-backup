@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 . /opt/farm/scripts/init
 
 /opt/farm/scripts/setup/extension.sh sf-db-utils
