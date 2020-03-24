@@ -6,7 +6,7 @@ Distributed backup is one of the key functionalities of Server Farmer.
 
 All hosts with installed Server Farmer, unless explicitly disabled, are doing their own backup (to specified directory on local drive), which is then pulled using `scp` by special host named *backup collector* (which is responsible for long-term backup storage).
 
-*This part of backup documentation describes only local aspects. See `sf-backup-collector` repository for details about backup transfer, central storage etc.*
+*This part of backup documentation describes only local aspects. See `sm-backup-collector` repository for details about backup transfer, central storage etc.*
 
 
 ### Backup sources
