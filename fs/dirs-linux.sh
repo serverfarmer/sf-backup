@@ -20,7 +20,7 @@ for D in `ls /opt 2>/dev/null |egrep -v "^(az|compliance|containerd|farm|heartbe
 	echo /opt/$D
 done
 
-for D in `ls /srv 2>/dev/null |egrep -v "^(apps|chunks|cifs|imap|isync|mounts|nfs|polynimbus|sites)$" |grep -v ^rsync`; do
+for D in `ls /srv 2>/dev/null |egrep -v "^(apps|chunks|cifs|imap|isync|mounts|nfs|offline|polynimbus|sites)$" |grep -v ^rsync`; do
 	echo /srv/$D
 done
 
