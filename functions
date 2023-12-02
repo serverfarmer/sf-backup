@@ -59,6 +59,8 @@ backup_mysql() {
 
 		if [ "$skipfile" != "" ] && [ -f $skipfile ]; then
 			dbs="`echo \"show databases;\" |mysql $access |grep -v ^Database |grep -v information_schema |grep -v performance_schema |grep -v ^sys\$ |grep -v ^mysql\$ |grep -vxFf $skipfile`"
+		elif [ -s /etc/mysql/.skip-backup ]; then
+			dbs="`echo \"show databases;\" |mysql $access |grep -v ^Database |grep -v information_schema |grep -v performance_schema |grep -v ^sys\$ |grep -v ^mysql\$ |grep -vxFf /etc/mysql/.skip-backup`"
 		else
 			dbs="`echo \"show databases;\" |mysql $access |grep -v ^Database |grep -v information_schema |grep -v performance_schema |grep -v ^sys\$ |grep -v ^mysql\$`"
 		fi
