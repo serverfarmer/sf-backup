@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for D in /etc /root /boot /var/log /var/cache/farm /var/cache/dns /var/cache/bind /var/cache/polynimbus; do
+for D in /etc /root /boot /var/log /var/cache/farm /var/cache/dns /var/cache/bind /var/cache/polynimbus /crawler/app; do
 	echo $D
 done
 
@@ -14,6 +14,14 @@ fi
 
 for D in `ls /data 2>/dev/null`; do
 	echo /data/$D
+done
+
+for D in `ls /crawler/data 2>/dev/null`; do
+	echo /crawler/data/$D
+done
+
+for D in `ls /crawler/logs 2>/dev/null`; do
+	echo /crawler/logs/$D
 done
 
 for D in `ls /opt 2>/dev/null |egrep -v "^(az|compliance|containerd|farm|heartbeat|lynis|misc|polynimbus|polynimbus-backup|polynimbus-panel|warfare|zonemanager)$"`; do
